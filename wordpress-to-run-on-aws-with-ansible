@@ -1,0 +1,56 @@
+WordPress Deployment using Ansible
+Steps to consider to run WordPress as mentioned on git
+You have to spin up an EC2 instance and install ansible on that, preferably you have to attach an elastic IP (eip) to that. Once that is done, installing ansible on that instance would be your next step. After SSH to that EC2 instance here’s how I set up the directory 
+How I created WordPress directory in the EC2 instance (control machine)
+$ cd /home/ansibleforaws
+$ mkdir wordpress
+
+Copied the external inventory script ec2.py and ec2.ini (comes from anbsible install) file to this project directory:
+$ cp ec2* wordpress/
+Added localhost to the inventory file hosts:
+$ cd wordpress $ vi hosts (the content can be copied of “hosts” file from git repo)
+How I created playbook for provisioning:
+$ vi provisioning.yml (the content can be copied of “provisioning.yml” file from git repo)
+
+You can run the playbook without the need of keypair:
+# ansible-playbook -i hosts provisioning.yml --skip-tags "keypair"
+
+How I created the variables
+$ cd /home/ansibleforaws/wordpress
+$ mkdir group_vars
+$ vi group_vars/all
+
+Different folders were created under roles directory (common roles, web roles, mysql roles, and wordpress roles)
+The playbook I created for our WordPress site's configuration management:
+$ vi site.yml (the content can be copied of “site.yml” file from git repo)
+
+So the end WordPress project's directory structure looks like this:
+/home/
+  ansibleforaws/
+    wordpress/
+        ec2.ini
+        ec2.py
+        provisioning.yml
+        site.yml
+    group_vars/
+        all
+    roles/
+      mysql/
+        handlers/
+          main.yml
+        tasks/
+          main.yml
+        templates/
+          my.cnf.j2
+    web/
+        tasks/
+          main.yml
+    wordpress/
+        tasks/
+          main.yml
+        templates/
+          wp-config.php
+  
+
+Running site.yml playbook will have the WordPress website up and running on the IP address of your EC2 instance:
+$ ansible-playbook -i hosts -i ec2.py site.yml
