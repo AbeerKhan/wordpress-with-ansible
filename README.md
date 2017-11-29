@@ -8,7 +8,7 @@ $ cd ./ansible
 
 $ make rpm
 
-$ sudo rpm -Uvh ./rpm-build/ansible-*.noarch.rpm
+$ sudo rpm -Uvh ./rpm-build/ansible-7.noarch.rpm
 
 # WordPress database settings
 wp_db_name: wordpress 
