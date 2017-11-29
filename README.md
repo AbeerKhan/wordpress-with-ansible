@@ -3,8 +3,11 @@ Provisioning of AWS resources for a WordPress website can be done with the use o
 Before running the playbooks on EC2 instances, you need to install ansible on a control machine. I did so using a git repository 
 
 $ git clone https://github.com/ansible/ansible.git
+
 $ cd ./ansible
+
 $ make rpm
+
 $ sudo rpm -Uvh ./rpm-build/ansible-*.noarch.rpm
 
 # WordPress database settings
